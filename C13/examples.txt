@@ -1,0 +1,33 @@
+#Generate key pair of (private-key, public-key)
+#1. Generate private-key
+OpenSSL> genrsa -out private.pem
+Generating RSA private key, 2048 bit long modulus
+.......+++
+.+++
+e is 65537 (0x010001)
+
+#2. Generate public-key
+OpenSSL> rsa -in private.pem -pubout -out public.pem
+writing RSA key
+
+#3. Encode public-key into BASE64
+OpenSSL> base64 -e -in public.pem -out public.pem.64
+
+
+#4. Sign the message poem.txt
+OpenSSL> dgst -sha256 -sign private.pem -out poem.sgn poem.t
+xt
+
+#5. Encode the signature into BASE64
+OpenSSL> base64 -e -in poem.sgn  -out poem.sgn.64
+
+#6. Verify the signature
+OpenSSL> dgst -sha256 -verify public.pem -signature poem.sgn
+ poem.txt
+Verified OK
+
+# 7. After message is modified, verify again
+OpenSSL> dgst -sha256 -verify public.pem -signature poem.sgn
+ poem.txt
+Verification Failure
+error in dgst

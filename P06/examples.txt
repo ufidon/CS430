@@ -1,0 +1,20 @@
+#in OpenSSL
+# generate a private key saved in keyfile
+# genrsa -out keyfilename keylength
+
+genrsa -out myprvkey512.pem 512
+genrsa -out myprvkey2048.pem 2048
+
+# view keyfile in any text editor
+
+# view key structure
+# rsa -text -in keyfile
+rsa -text -in myprvkey2048.pem
+
+# generate public key from private key
+# rsa -in privatekey -pubout -out publickey
+rsa -in myprvkey2048.pem -pubout -out mypubkey2048.pem
+
+# view public key structure
+# rsa -text -pubin -in publickey
+rsa -text -pubin -in mypubkey2048.pem

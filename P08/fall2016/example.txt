@@ -1,0 +1,58 @@
+############## digital certificate ############################
+# -1. Request your digital certificate from CIS
+
+	a) Create a certificate signing request : Firstname_Lastname.csr, 
+	Hide your corresponding private key: Firstname_Lastname.prv
+	
+	openssl req -new -out Firstname_Lastname.csr -keyout Firstname_Lastname.prv
+	
+	b) encode your request in base64: Firstname_Lastname.csr.64
+	openssl base64 -e -in Firstname_Lastname.csr -out Firstname_Lastname.csr.64
+	
+	c) upload your request "Firstname_Lastname.csr.64" to Blackboard for signing, 
+	you will get your certificate encoded in base64: Firstname_Lastname.crt.64 
+	published on our Blackboard
+	
+
+############ certificate verification #########################
+	a) get your partner's certificate from Blackboard
+	decode this base64 encoded certificate for key wrapping
+	
+	b) Verify your certificate with CIS's certificate
+	Download Certificate authority's certificate 'cis_ca.crt' from
+
+	https://github.com/ufidon/cs430/tree/master/P08/fall2016
+	openssl verify -CAfile cis_ca.crt Firstname_Lastname.crt
+
+
+############ random key wrapping with public-key ##############	
+	a) get your partner's public-key from his/her certificate
+	openssl x509 -pubkey -noout -in Firstname_Lastname.crt > Firstname_Lastname.pub
+	
+	b) Generate the random password file
+	openssl rand -hex  -out key11092016.hex 128
+	openssl rand -base64 -out key11092016.64 128
+
+	c) Wrap (encrypt) the password file
+	openssl rsautl -encrypt -inkey Firstname_Lastname.pub -pubin -in key11092016.hex -out key11092016.hex.wrp
+	
+	d) send key11092016.hex.wrp to your partner
+	your partner decrypt key11092016.hex.wrp with his/her private key
+	now both of you have this random password file used for symmetric encryption/decryption
+	
+	
+	
+#### Cryptographic hash functions: secure hash algorithm, message digest ###########
+# Message authentication codes: MACs based on hash functions
+OpenSSL dgst  -sha1 -out tiangong.dgst tiangong.jpg
+OpenSSL dgst -sha512 -out tiangongsha512.dgst tiangong.jpg
+openssl dgst -sha1 -hmac hello -out hmacsha1tiangong.dgst tiangong.jpg
+openssl dgst -sha1 -mac hmac -macopt key:hello -out macsha1tiangong.dgst tiangong.jpg
+
+
+#### Signature sign and verification ##############################################
+openssl rsautl -sign -in macsha1tiangong.dgst -out macsha1tiangong.dgst.sgn -inkey private.pem
+openssl rsautl -verify -in macsha1tiangong.dgst.sgn -out vmacsha1tiangong.dgst -inkey public.pem -pubin
+
+openssl dgst -sha1 -sign private.pem -out sha1tiangong.sgn tiangong.jpg
+openssl dgst -sha1 -verify public.pem -signature sha1tiangong.sgn tiangong.jpg

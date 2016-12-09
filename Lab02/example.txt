@@ -1,0 +1,56 @@
+############ certificate verification #########################
+	a) get your partner's certificate from Blackboard
+	decode this base64 encoded certificate for key wrapping
+	
+		openssl base64 -d -in Firstname_Lastname.crt.64 -out Firstname_Lastname.crt
+	
+	b) Verify your certificate with CIS's certificate
+		Download Certificate authority's certificate 'cis_ca.crt' from
+
+		https://github.com/ufidon/cs430/tree/master/P08/fall2016
+		openssl verify -CAfile cis_ca.crt Firstname_Lastname.crt
+	
+	c) View certificate
+		1) open Firstname_Lastname.crt
+		2) openssl x509 -in Firstname_Lastname.crt -text
+	
+	d) Extract public-key from certificate
+		openssl x509 -pubkey -noout -in Firstname_Lastname.crt > Firstname_Lastname.pub
+	
+	e) View public-key
+		openssl rsa -in Firstname_Lastname.pub -text -pubin
+
+############ random key wrapping with public-key ##############	
+	a) Generate the random password file
+		openssl rand -hex  -out key11092016.hex 16
+
+
+	c) Wrap (encrypt) the password file with your partner's public-key then encoded with base64
+		openssl rsautl -encrypt -inkey Firstname_Lastname.pub -pubin -in key11092016.hex -out key11092016.hex.wrp
+		openssl base64 -e -in key11092016.hex.wrp -out key11092016.hex.wrp.64
+	d) send key11092016.hex.wrp.64 to your partner
+		your partner decode key11092016.hex.wrp.64 then decrypt key11092016.hex.wrp with his/her private key
+		now both of you have this random password file used for symmetric encryption/decryption
+		
+		openssl base64 -d -in key11092016.hex.wrp.64 -out key11092016.hex.wrp
+		openssl 
+		
+		openssl rsautl -decrypt -inkey Firstname_Lastname.prv -in key11092016.hex.wrp -out dkey11092016.hex
+		
+		fc /b dkey11092016.hex key11092016.hex
+		
+####### confidential communication encryption/decryption with symmetric ciphers ############################
+	
+		Encrypt and send:
+		openssl enc -aes-128-ofb -e -v -p -pass pass:key11092016.hex -in tiangong.jpg -out tiangong.jpg.aes128ofb
+		openssl enc -aes-128-ofb -e -v -p -nopad -nosalt -pass pass:key11092016.hex -in tiangong.jpg -out tiangong.jpg.aes128ofb
+		
+		openssl base64 -e -in tiangong.jpg.aes128ofb -out tiangong.jpg.aes128ofb.64
+		
+		Receive and decrypt:
+		openssl base64 -d -in tiangong.jpg.aes128ofb.64 -out dtiangong.jpg.aes128ofb
+		openssl enc -aes-128-ofb -d -v -p -nopad -nosalt -pass pass:key11092016.hex -in tiangong.jpg.aes128ofb -out dtiangong.jpg
+		
+		fc /b tiangong.jpg dtiangong.jpg
+		
+

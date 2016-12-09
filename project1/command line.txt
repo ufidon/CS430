@@ -1,0 +1,164 @@
+#1. pass parameters from terminals into program
+
+
+
+#2. parse parameters inside program
+
+
+
+
+#3. call libraries or openssl inside program
+
+
+
+
+#4. check program with test data and compare with openssl
+
+
+OpenSSL> help ciphers
+Usage: help
+error in help
+OpenSSL> help
+
+Standard commands
+asn1parse         ca                ciphers           cms
+
+crl               crl2pkcs7         dgst              dhpara
+m
+dsa               dsaparam          ec                ecpara
+m
+enc               engine            errstr            exit
+
+gendsa            genpkey           genrsa            help
+
+list              nseq              ocsp              passwd
+
+pkcs12            pkcs7             pkcs8             pkey
+
+pkeyparam         pkeyutl           prime             rand
+
+rehash            req               rsa               rsautl
+
+s_client          s_server          s_time            sess_i
+d
+smime             speed             spkac             srp
+
+ts                verify            version           x509
+
+
+Message Digest commands (see the `dgst' command for more det
+ails)
+blake2b512        blake2s256        gost              md4
+
+md5               mdc2              rmd160            sha1
+
+sha224            sha256            sha384            sha512
+
+
+Cipher commands (see the `enc' command for more details)
+aes-128-cbc       aes-128-ecb       aes-192-cbc       aes-19
+2-ecb
+aes-256-cbc       aes-256-ecb       base64            bf
+
+bf-cbc            bf-cfb            bf-ecb            bf-ofb
+
+camellia-128-cbc  camellia-128-ecb  camellia-192-cbc  camell
+ia-192-ecb
+camellia-256-cbc  camellia-256-ecb  cast              cast-c
+bc
+cast5-cbc         cast5-cfb         cast5-ecb         cast5-
+ofb
+des               des-cbc           des-cfb           des-ec
+b
+des-ede           des-ede-cbc       des-ede-cfb       des-ed
+e-ofb
+des-ede3          des-ede3-cbc      des-ede3-cfb      des-ed
+e3-ofb
+des-ofb           des3              desx              idea
+
+idea-cbc          idea-cfb          idea-ecb          idea-o
+fb
+rc2               rc2-40-cbc        rc2-64-cbc        rc2-cb
+c
+rc2-cfb           rc2-ecb           rc2-ofb           rc4
+
+rc4-40            seed              seed-cbc          seed-c
+fb
+seed-ecb          seed-ofb
+
+OpenSSL> aes-128-ecb -e -K 11223344556677889900112233445566
+-v -nosalt in poem.txt -out poem128ecb.txt
+bufsize=8192
+-_+¤HXh?W+µ¦{iàR^C
+H:\fall-2016\cs430\code\cs430\project1>openssl
+OpenSSL> aes-128-ecb -e -K 11223344556677889900112233445566
+-v -nosalt -in poem.txt -out poem128ecb.txt
+bufsize=8192
+bytes read   :     710
+bytes written:     720
+OpenSSL> aes-128-ecb -d -K 11223344556677889900112233445566
+-v -nosalt -in poem128ecb.txt -out dpoem128ecb.txt
+bufsize=8192
+bytes read   :     720
+bytes written:     710
+OpenSSL> aes-256-ofb -e -K 112233445566778899001122334455661
+1223344556677889900112233445566 -v -nosalt -in poem.txt -out
+ poem256ofb.txt
+bufsize=8192
+iv undefined
+error in aes-256-ofb
+OpenSSL> aes-256-ofb -e -K 112233445566778899001122334455661
+1223344556677889900112233445566 -iv 112233445566778899001122
+33445566   -v -nosalt -in poem.txt -out poem256ofb.txt
+bufsize=8192
+bytes read   :     710
+bytes written:     710
+OpenSSL> aes-256-ofb -d -K 112233445566778899001122334455661
+1223344556677889900112233445566 -iv 112233445566778899001122
+33445566 -v -nosalt -in poem256ofb.txt -out dpoem256ofb.txt
+bufsize=8192
+bytes read   :     710
+bytes written:     710
+OpenSSL>
+
+# in a single line
+>openssl enc -a
+es-128-ecb -K 11223344556677889900112233445566 -v -nosalt -i
+n poem.txt -out poem128ecb.txt
+bufsize=8192
+bytes read   :     710
+bytes written:     720
+
+# run the python script
+>python aesu.py
+ -e  -K 11223344556677889900112233445566 -m ecb  -in poem.tx
+t -out poempy128ecb.txt
+Number of arguments: 10 arguments.
+Argument List: ['aesu.py', '-e', '-K', '11223344556677889900
+112233445566', '-m', 'ecb', '-in', 'poem.txt', '-out', 'poem
+py128ecb.txt']
+show in another way:
+aesu.py
+-e
+-K
+11223344556677889900112233445566
+-m
+ecb
+-in
+poem.txt
+-out
+poempy128ecb.txt
+acess parameters one by one
+aesu.py
+-e
+-K
+11223344556677889900112233445566
+-m
+ecb
+-in
+poem.txt
+-out
+poempy128ecb.txt
+bufsize=8192
+bytes read   :     710
+bytes written:     720

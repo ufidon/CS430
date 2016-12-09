@@ -1,0 +1,40 @@
+# command lines for chapter 14
+
+
+# generate myprivatekey and my request for signing from a certificate authority
+> openssl
+OpenSSL> req -newkey rsa:2048 -nodes -keyout mypravatekey.pem -out myreq.csr
+Generating a 2048 bit RSA private key
+.......+++
+.....+++
+writing new private key to 'mypravatekey.pem'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+
+
+# view my certificate signing request
+
+> openssl x509 -signkey mypravatekey.pem -in myreq.csr -req -days 365 -out mycert.crt
+Signature ok
+
+
+# view my certificate
+> openssl x509 -text -noout -in mycert.crt
+
+		 
+# get my public key from my certificate		 
+> openssl x509 -in mycert.crt -pubkey -noout > mypub.pem
+
+# encrypt with my public key
+> openssl rsautl -encrypt -inkey mypub.pem -pubin -in examples.txt -out cipher.txt
+
+
+# decrypt with my private key
+> openssl rsautl -decrypt -inkey mypravatekey.pem -in cipher.txt -out decoded.txt
+

@@ -1,0 +1,17 @@
+
+# Linear Congruential Generator
+m=2**17 - 1
+a=991
+c=13
+x = 967
+for i in range(10):
+    x = (a*x+c) % m
+    print(x)
+	
+# Blum Blum Shub Generator	
+n = 10
+x = 7
+for i in range(11):
+    x = x*x % n
+    bx = bin(x)
+    print(x, ' ' ,bx)	

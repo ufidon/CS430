@@ -1,0 +1,88 @@
+> openssl
+OpenSSL> aes-256-ecb -K 0 -v -p -nosalt -nopad -in plain -out cipherecb
+aes-256-ecb: Cannot open input file plain, No such file or directory
+aes-256-ecb: Use -help for summary.
+error in aes-256-ecb
+OpenSSL> aes-256-ecb -K 0 -v -p -nosalt -nopad -in plain.txt -out cipherecb
+bufsize=8192
+key=0000000000000000000000000000000000000000000000000000000000000000
+bytes read   :      16
+bytes written:      16
+OpenSSL> aes-192-cbc -K 0 -iv 0 -v -p -nosalt -nopad -in plain.txt -out ciphercbc
+bufsize=8192
+key=000000000000000000000000000000000000000000000000
+iv =00000000000000000000000000000000
+bytes read   :      16
+bytes written:      16
+OpenSSL> aes-128-ofb -K 0 -iv 0 -v -p -nosalt -nopad -in plain.txt -out cipherofb
+bufsize=8192
+key=00000000000000000000000000000000
+iv =00000000000000000000000000000000
+bytes read   :      16
+bytes written:      16
+OpenSSL> aes-128-ofb -K 0 -iv 0 -v -p -nosalt -in plain.txt -out cipherofbp
+bufsize=8192
+key=00000000000000000000000000000000
+iv =00000000000000000000000000000000
+bytes read   :      16
+bytes written:      16
+OpenSSL>
+
+> ipython3
+Python 3.5.2 |Anaconda 4.1.1 (64-bit)| (default, Jul  5 2016, 11:41:13) [MSC v.1900 64 bit (AMD64)]
+Type "copyright", "credits" or "license" for more information.
+
+IPython 4.2.0 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: m=2**31-1
+
+In [2]: a=7**5
+
+In [3]: x0=1999
+
+In [4]: for i in range(7):
+   ...:     x1 = a*x0 % m
+   ...:     print(x1)
+   ...:     x0=x1
+   ...:
+33597193
+2027307237
+977188957
+1807351690
+3667015
+1501978989
+90597638
+
+
+> openssl
+OpenSSL> sha1 padding.txt
+SHA1(padding.txt)= eeb5dd49132e82a02cacec1c0fc4889bd6373192
+OpenSSL> genrsa --help
+Usage: genrsa [options]
+Valid options are:
+ -help         Display this summary
+ -3            Use 3 for the E value
+ -F4           Use F4 (0x10001) for the E value
+ -f4           Use F4 (0x10001) for the E value
+ -out val      Output the key to specified file
+ -rand val     Load the file(s) into the random number generator
+ -passout val  Output file pass phrase source
+ -*            Encrypt the output with any supported cipher
+ -engine val   Use engine, possibly a hardware device
+OpenSSL> genrsa -out midprv.pem 512
+Generating RSA private key, 512 bit long modulus
+............++++++++++++
+.................++++++++++++
+e is 65537 (0x010001)
+OpenSSL> rsa -in midprv.pem -out midpub.pem -pubout
+writing RSA key
+
+OpenSSL> dgst -sha1 -sign midprv.pem -out padding.sgn padding.txt
+OpenSSL> base64 -e -in padding.sgn -out padding.64
+OpenSSL> base64 -e -in midpub.pem -out midpub.64
+OpenSSL> dgst -sha1 -verify midpub.pem -signature padding.sgn padding.txt
+Verified OK

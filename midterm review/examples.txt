@@ -1,0 +1,46 @@
+# midterm review 
+
+
+OpenSSL> aes-128-ecb -e -K 00112233445566778899112233445566
+-v -p -in plaintext.txt -out cipherecb.txt
+bufsize=8192
+salt=0300000000000000
+key=00112233445566778899112233445566
+bytes read   :       5
+bytes written:      16
+OpenSSL> aes-128-ecb -e -K 00112233445566778899112233445566
+-v -p -nosalt  -in plaintext.txt -out cipherecb.txt
+bufsize=8192
+key=00112233445566778899112233445566
+bytes read   :       5
+bytes written:      16
+OpenSSL> aes-128-ecb -e -K 00112233445566778899112233445566
+-v -p -in plaintext.txt -out cipherecbns.txt
+bufsize=8192
+salt=0300000000000000
+key=00112233445566778899112233445566
+bytes read   :       5
+bytes written:      16
+OpenSSL> aes-128-ecb -e -K 00112233445566778899112233445566
+-v -nopad  -p -in plaintextpadded.txt -out cipherecbpadded.t
+xt
+bufsize=8192
+salt=0300000000000000
+key=00112233445566778899112233445566
+bytes read   :      16
+bytes written:      16
+OpenSSL> aes-128-ecb -e -K 00112233445566778899112233445566
+-v   -p -in plaintextpadded.txt -out cipherecbpadded1.txt
+bufsize=8192
+salt=0300000000000000
+key=00112233445566778899112233445566
+bytes read   :      16
+bytes written:      32
+OpenSSL> aes-128-ecb -e -K 00112233445566778899 -v   -p -in
+plaintextpadded.txt -out cipherecbpadded2.txt
+bufsize=8192
+salt=0300000000000000
+key=00112233445566778899000000000000
+bytes read   :      16
+bytes written:      32
+OpenSSL>

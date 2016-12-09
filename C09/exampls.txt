@@ -1,0 +1,61 @@
+# public key (e,n)
+# private key (d,n)
+n=187
+e=7
+d=23
+
+# ASCII code for 'A'
+ord('A')
+
+# encryption
+65**e % n
+
+# decryption
+142**d % n
+
+# from ASCII code to character
+chr(65)
+
+#####################################################
+### encryption and decryption with RSA in openssl
+
+
+H:\>cd fall-2016\cs430\code\c430
+The system cannot find the path specified.
+
+H:\>cd fall-2016\cs430\code\cs430
+
+H:\fall-2016\cs430\code\cs430>cd c09
+
+H:\fall-2016\cs430\code\cs430\C09>dir
+ Volume in drive H is 720-SAN-736
+ Volume Serial Number is F47A-2053
+
+ Directory of H:\fall-2016\cs430\code\cs430\C09
+
+09/19/2016  03:29 PM    <DIR>          .
+09/19/2016  03:29 PM    <DIR>          ..
+09/16/2016  04:40 PM               128 ebypr.txt
+09/16/2016  04:35 PM               128 ebypu.txt
+09/19/2016  03:31 PM               193 exampls.txt
+09/16/2016  04:20 PM                22 plaintext.txt
+09/16/2016  04:20 PM               902 pr.pem
+09/16/2016  04:22 PM               278 pu.pem
+               6 File(s)          1,651 bytes
+               2 Dir(s)  115,682,701,312 bytes free
+
+H:\fall-2016\cs430\code\cs430\C09>openssl
+OpenSSL> genrsa -out private_key.pem 1024
+Generating RSA private key, 1024 bit long modulus
+.........++++++
+.....++++++
+e is 65537 (0x010001)
+OpenSSL> rsa -in private_key.pem -out public_key.pem -outfor
+m PEM -pubout
+writing RSA key
+
+OpenSSL> rsautl -encrypt -inkey public_key.pem -pubin -in me
+ssage.txt -out ciphertext.txt
+OpenSSL> rsautl -decrypt -inkey private_key.pem -in cipherte
+xt.txt -out decrypted_message.txt
+OpenSSL>
