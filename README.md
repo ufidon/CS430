@@ -69,7 +69,8 @@ Online materials and codes for CS430 - Information System Security and Network M
 	http://pythonfiddle.com/the-enigma-cipher/
 	
 	Paper_Enigma
-	http://wiki.franklinheath.co.uk/index.php/Enigma/Paper_Enigma	http://williamedwardscoder.tumblr.com/post/145304200648/enigma-machine-on-paper-and-python
+	http://wiki.franklinheath.co.uk/index.php/Enigma/Paper_Enigma	
+	http://williamedwardscoder.tumblr.com/post/145304200648/enigma-machine-on-paper-and-python
 	
 ## Practice-05:
 	https://pymotw.com/2/argparse/
