@@ -115,3 +115,9 @@ Online materials and codes for CS430 - Information System Security and Network M
 	http://fireftp.net
 	https://139.135.111.63
 	https://youtu.be/LoeRzMpkS6E
+	
+## cryptographic hardware
+	http://opencores.org/projects
+	http://satoh.cs.uec.ac.jp/SAKURA/index.html
+	http://www.heliontech.com/core.htm
+	http://www.nallatech.com/40gbit-aes-encryption-using-opencl-and-fpgas/
